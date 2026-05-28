@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 
 namespace WPF_LocalChatSqlite
 {
@@ -11,6 +12,11 @@ namespace WPF_LocalChatSqlite
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
+            Login();
+        }
+
+        private void Login()
+        {
             var nickname = NicknameBox.Text?.Trim();
             if (string.IsNullOrEmpty(nickname) || nickname.Length < 2)
             {
@@ -22,6 +28,13 @@ namespace WPF_LocalChatSqlite
             var main = new MainWindow(nickname);
             main.Show();
             this.Close();
+        }
+        private void NicknameBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Login();
+            }
         }
     }
 }

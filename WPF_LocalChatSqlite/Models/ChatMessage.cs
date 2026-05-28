@@ -13,5 +13,7 @@ namespace WPF_LocalChatSqlite.Models
         public string Text { get; set; }
 
         public DateTime Timestamp { get; set; }
+        [Ignore]
+        public bool IsOwnMessage { get; set; }
     }
 }

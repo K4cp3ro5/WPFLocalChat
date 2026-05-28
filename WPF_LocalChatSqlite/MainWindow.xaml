@@ -10,6 +10,7 @@
         Width="850"
         Background="#1E1E1E"
         WindowStartupLocation="CenterScreen">
+
     <Grid Margin="15">
 
         <Grid.RowDefinitions>
@@ -18,6 +19,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+
         <Border Grid.Row="0"
                 Background="#2D2D30"
                 CornerRadius="10"
@@ -25,9 +27,10 @@
                 Margin="0,0,0,15">
 
             <TextBlock Text="💭 Czat"
-               Foreground="White"
-               FontSize="26"
-               FontWeight="Bold"/>
+                       Foreground="White"
+                       FontSize="26"
+                       FontWeight="Bold"/>
+
         </Border>
 
         <Border Grid.Row="1"
@@ -43,9 +46,92 @@
 
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
-                        <Setter Property="Margin" Value="0,5"/>
+                        <Setter Property="Margin"
+                                Value="0,5"/>
+
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Stretch"/>
                     </Style>
                 </ListBox.ItemContainerStyle>
+
+                <ListBox.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Background="#3C3C3C"
+                                    CornerRadius="8"
+                                    Padding="10">
+
+                                <TextBlock Foreground="White"
+                                           TextWrapping="Wrap">
+
+                                    <Run Text="["/>
+                                    <Run Text="{Binding Timestamp, StringFormat=HH:mm}"/>
+                                    <Run Text="] "/>
+
+                                    <Run Text="{Binding Nickname}"/>
+                                    <Run Text=": "/>
+
+                                    <Run Text="{Binding Text}"/>
+
+                                </TextBlock>
+
+                            </Border>
+
+                            <Button Grid.Column="1"
+                                    Width="35"
+                                    Height="35"
+                                    Margin="10,0,0,0"
+                                    Content="🗑️"
+                                    FontSize="16"
+                                    Background="#AA2222"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    Tag="{Binding}"
+                                    Click="Delete_Click">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                        <Style.Triggers>
+
+                                            <MultiDataTrigger>
+
+                                                <MultiDataTrigger.Conditions>
+
+                                                    <Condition Binding="{Binding IsOwnMessage}" Value="True"/>
+
+                                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}"
+                                                                Value="True"/>
+
+                                                </MultiDataTrigger.Conditions>
+
+                                                <Setter Property="Visibility" Value="Visible"/>
+
+                                            </MultiDataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+                                </Button.Style>
+
+                            </Button>
+
+                        </Grid>
+
+                    </DataTemplate>
+
+                </ListBox.ItemTemplate>
 
             </ListBox>
 
@@ -84,19 +170,31 @@
                         Click="Send_Click">
 
                     <Button.Style>
+
                         <Style TargetType="Button">
+
                             <Setter Property="Template">
+
                                 <Setter.Value>
+
                                     <ControlTemplate TargetType="Button">
+
                                         <Border Background="#007ACC"
-                                        CornerRadius="8">
+                                                CornerRadius="8">
+
                                             <ContentPresenter HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"/>
+                                                              VerticalAlignment="Center"/>
+
                                         </Border>
+
                                     </ControlTemplate>
+
                                 </Setter.Value>
+
                             </Setter>
+
                         </Style>
+
                     </Button.Style>
 
                 </Button>
@@ -106,4 +204,5 @@
         </Border>
 
     </Grid>
+
 </Window>

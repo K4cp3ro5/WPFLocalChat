@@ -1,38 +1,51 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using WPF_LocalChatSqlite.Services;
 using WPF_LocalChatSqlite.Models;
+using WPF_LocalChatSqlite.Services;
 
 namespace WPF_LocalChatSqlite
 {
     public partial class MainWindow : Window
     {
         private readonly string _nickname;
+
         private readonly DispatcherTimer _refreshTimer;
-        private DateTime _lastLoaded = DateTime.MinValue;
 
         public MainWindow(string nickname = "Noname")
         {
             InitializeComponent();
+
             _nickname = nickname;
+
             Title = $"Local Chat - {_nickname}";
 
             LoadMessages();
 
             _refreshTimer = new DispatcherTimer();
+
             _refreshTimer.Interval = TimeSpan.FromSeconds(1.5);
+
             _refreshTimer.Tick += (s, e) => LoadMessages();
+
             _refreshTimer.Start();
         }
 
         private void SendMessage()
         {
             var text = MessageBox.Text.Trim();
-            if (string.IsNullOrEmpty(text)) return;
 
-            DatabaseService.SaveMessage(_nickname, text); // do bazy
+            if (string.IsNullOrWhiteSpace(text))
+                return;
+
+            DatabaseService.SaveMessage(_nickname, text);
+
             MessageBox.Clear();
+
             LoadMessages();
         }
 
@@ -46,39 +59,56 @@ namespace WPF_LocalChatSqlite
             if (e.Key == Key.Enter)
             {
                 SendMessage();
+
                 e.Handled = true;
+            }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button btn &&
+                    btn.Tag is ChatMessage msg)
+                {
+                    DatabaseService.DeleteMessage(msg.Id);
+
+                    LoadMessages();
+                }
+            }
+            catch (Exception ex)
+            {
+                
             }
         }
 
         private void LoadMessages()
         {
-            List<ChatMessage> messages;
             try
             {
-                messages = DatabaseService.LoadMessages();
+                List<ChatMessage> messages =
+                    DatabaseService.LoadMessages();
+
+                foreach (var m in messages)
+                {
+                    m.IsOwnMessage =
+                        m.Nickname == _nickname;
+                }
+
+                MessagesList.ItemsSource = null;
+
+                MessagesList.ItemsSource = messages;
+
+                if (messages.Count > 0)
+                {
+                    MessagesList.ScrollIntoView(
+                        messages.Last()
+                    );
+                }
             }
             catch
             {
-                return;
-            }
 
-            if (messages == null) 
-                return;
-
-            if (messages.Count > 0 && messages.Last().Timestamp <= _lastLoaded) 
-                return;
-
-            MessagesList.Items.Clear();
-            foreach (var m in messages)
-            {
-                var display = $"[{m.Timestamp:HH:mm}] {m.Nickname}: {m.Text}";
-                MessagesList.Items.Add(display);
-            }
-
-            if (messages.Count > 0)
-            {
-                _lastLoaded = messages.Last().Timestamp;
-                MessagesList.ScrollIntoView(MessagesList.Items[MessagesList.Items.Count - 1]);
             }
         }
     }

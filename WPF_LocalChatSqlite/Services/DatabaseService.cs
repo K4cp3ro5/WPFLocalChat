@@ -43,5 +43,9 @@ namespace WPF_LocalChatSqlite.Services
 
             return query.ToList();
         }
+        public static void DeleteMessage(int id)
+        {
+            Db.Delete<ChatMessage>(id);
+        }
     }
 }
