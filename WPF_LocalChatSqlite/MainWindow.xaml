@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_LocalChatSqlite"
         mc:Ignorable="d"
-            Title="Local Chat"
-    Height="500"
-    Width="850"
-    Background="#1E1E1E"
-    WindowStartupLocation="CenterScreen">
+        Title="Local Chat"
+        Height="500"
+        Width="850"
+        Background="#1E1E1E"
+        WindowStartupLocation="CenterScreen">
     <Grid Margin="15">
 
         <Grid.RowDefinitions>
@@ -19,10 +19,10 @@
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0"
-        Background="#2D2D30"
-        CornerRadius="10"
-        Padding="15"
-        Margin="0,0,0,15">
+                Background="#2D2D30"
+                CornerRadius="10"
+                Padding="15"
+                Margin="0,0,0,15">
 
             <TextBlock Text="💭 Czat"
                Foreground="White"
@@ -31,15 +31,15 @@
         </Border>
 
         <Border Grid.Row="1"
-        Background="#252526"
-        CornerRadius="10"
-        Padding="10">
+                Background="#252526"
+                CornerRadius="10"
+                Padding="10">
 
             <ListBox x:Name="MessagesList"
-             Background="Transparent"
-             BorderThickness="0"
-             Foreground="White"
-             FontSize="15">
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Foreground="White"
+                     FontSize="15">
 
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
@@ -52,36 +52,36 @@
         </Border>
 
         <Border Grid.Row="2"
-        Background="#2D2D30"
-        CornerRadius="10"
-        Padding="10"
-        Margin="0,15,0,0">
+                Background="#2D2D30"
+                CornerRadius="10"
+                Padding="10"
+                Margin="0,15,0,0">
 
             <DockPanel LastChildFill="False">
 
                 <TextBox x:Name="MessageBox"
-                 KeyDown="MessageBox_KeyDown"
-                 Height="40"
-                 FontSize="16"
-                 Foreground="White"
-                 Background="#3C3C3C"
-                 BorderThickness="0"
-                 Padding="10"
-                 Margin="0,0,10,0"
-                 VerticalContentAlignment="Center"
-                 MinWidth="600"
-                 DockPanel.Dock="Left"/>
+                         KeyDown="MessageBox_KeyDown"
+                         Height="40"
+                         FontSize="16"
+                         Foreground="White"
+                         Background="#3C3C3C"
+                         BorderThickness="0"
+                         Padding="10"
+                         Margin="0,0,10,0"
+                         VerticalContentAlignment="Center"
+                         MinWidth="600"
+                         DockPanel.Dock="Left"/>
 
                 <Button Content="Wyślij"
-                Width="120"
-                Height="40"
-                FontSize="15"
-                FontWeight="Bold"
-                Background="#007ACC"
-                Foreground="White"
-                BorderThickness="0"
-                Cursor="Hand"
-                Click="Send_Click">
+                        Width="120"
+                        Height="40"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Background="#007ACC"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="Send_Click">
 
                     <Button.Style>
                         <Style TargetType="Button">
