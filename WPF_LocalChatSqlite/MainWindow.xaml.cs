@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -35,7 +32,7 @@ namespace WPF_LocalChatSqlite
             _refreshTimer.Start();
         }
 
-        private void SendMessage()
+        private async void SendMessage()
         {
             var text = MessageBox.Text.Trim();
 
@@ -47,6 +44,28 @@ namespace WPF_LocalChatSqlite
             MessageBox.Clear();
 
             LoadMessages();
+
+            try
+            {
+                string botReply =
+                    await ChatbotService.GetChatbotReplyAsync(text);
+
+                DatabaseService.SaveMessage(
+                    "AI",
+                    botReply
+                );
+
+                LoadMessages();
+            }
+            catch (Exception ex)
+            {
+                DatabaseService.SaveMessage(
+                    "SYSTEM",
+                    ex.Message
+                );
+
+                LoadMessages();
+            }
         }
 
         private void Send_Click(object sender, RoutedEventArgs e)
@@ -58,6 +77,8 @@ namespace WPF_LocalChatSqlite
         {
             if (e.Key == Key.Enter)
             {
+                e.Handled = true;
+
                 SendMessage();
             }
         }
@@ -74,9 +95,9 @@ namespace WPF_LocalChatSqlite
                     LoadMessages();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                
+
             }
         }
 
