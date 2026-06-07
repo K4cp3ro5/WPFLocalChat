@@ -45,24 +45,36 @@ namespace WPF_LocalChatSqlite
 
             LoadMessages();
 
+            const string prefix = "AI";
+
+            string prompt = null;
+
+            if (text.Length >= prefix.Length &&
+                text.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                prompt = text.Substring(prefix.Length).TrimStart();
+
+                if (string.IsNullOrWhiteSpace(prompt))
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+
             try
             {
-                string botReply =
-                    await ChatbotService.GetChatbotReplyAsync(text);
+                string botReply = await ChatbotService.GetChatbotReplyAsync(prompt);
 
-                DatabaseService.SaveMessage(
-                    "AI",
-                    botReply
-                );
+                DatabaseService.SaveMessage("AI", botReply);
 
                 LoadMessages();
             }
             catch (Exception ex)
             {
-                DatabaseService.SaveMessage(
-                    "SYSTEM",
-                    ex.Message
-                );
+                DatabaseService.SaveMessage("BŁĄD", ex.Message);
 
                 LoadMessages();
             }

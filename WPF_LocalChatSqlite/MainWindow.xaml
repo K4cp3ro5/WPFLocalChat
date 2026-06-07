@@ -65,9 +65,22 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <Border Background="#3C3C3C"
-                                    CornerRadius="8"
-                                    Padding="10">
+                            <Border CornerRadius="8"
+                                    Padding="10"
+                                    MaxWidth="600">
+
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="HorizontalAlignment" Value="Left" />
+                                        <Setter Property="Background" Value="#3C3C3C" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOwnMessage}" Value="True">
+                                                <Setter Property="HorizontalAlignment" Value="Right" />
+                                                <Setter Property="Background" Value="#005A9E" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
 
                                 <TextBlock Foreground="White"
                                            TextWrapping="Wrap">
@@ -143,7 +156,7 @@
                 Padding="10"
                 Margin="0,15,0,0">
 
-            <DockPanel LastChildFill="False">
+            <DockPanel LastChildFill="False" HorizontalAlignment="Center">
 
                 <TextBox x:Name="MessageBox"
                          KeyDown="MessageBox_KeyDown"
@@ -155,7 +168,9 @@
                          Padding="10"
                          Margin="0,0,10,0"
                          VerticalContentAlignment="Center"
-                         MinWidth="600"
+                         MinWidth="350"
+                         MaxWidth="650"
+                         TextWrapping="WrapWithOverflow"
                          DockPanel.Dock="Left"/>
 
                 <Button Content="Wyślij"
