@@ -59,8 +59,6 @@ namespace WPF_LocalChatSqlite
             if (e.Key == Key.Enter)
             {
                 SendMessage();
-
-                e.Handled = true;
             }
         }
 
